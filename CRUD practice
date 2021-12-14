@@ -1,0 +1,97 @@
+USE baseballcards;
+
+SELECT f_name, l_name, hits
+FROM players p 
+	JOIN players_has_stats phs
+		ON p.id = phs.players_id
+	JOIN batting_stats bs
+		ON phs.batting_stats_id = bs.id
+WHERE hits > 120;
+
+SELECT f_name, l_name
+FROM players p
+	JOIN positions po
+		ON p.positions_id = po.id
+WHERE position != 'Outfield';
+
+SELECT f_name, l_name, team_name
+FROM teams t
+	JOIN players_has_stats_on_cards psc
+		ON t.id = psc.teams_id
+	JOIN players_has_stats ps
+		ON psc.players_has_stats_players_id = ps.players_id
+	JOIN players p
+		ON p.id = ps.players_id;
+        
+SELECT year
+FROM cards
+WHERE brand = 'topps';
+
+-- Updates
+SELECT * FROM players;
+INSERT INTO players VALUES
+(DEFAULT, 'Jared', 'Meldrum', "6'1", 150, 'Right', 'Right', "1999-03-11", 'Minneapolis, Minnesota', 'Idaho Falls, Idaho', @pitcher);
+set @jared = last_insert_id();
+
+UPDATE players
+SET f_name = 'jared',
+	l_name = 'Melly',
+    height = "6'3",
+    weight = 150,
+    home_city ="rexburg, Idaho"
+WHERE id = @jared;
+
+DELETE FROM players
+WHERE id = @jared;
+
+-- Update & delete 2
+INSERT INTO positions VALUES
+(default, 'Fourth base');
+set @forth = last_insert_id();
+    
+UPDATE positions
+SET position = 'Third Base'
+WHERE id = @forth;
+
+SELECT * FROM positions;
+
+DELETE FROM positions
+WHERE id = 4;
+
+-- Update & delete 3
+INSERT INTO cards VALUES
+(5, "Toppps", 2024);
+
+UPDATE cards
+SET brand = "topps",
+	year = 2002
+WHERE id = 5;
+
+SELECT * FROM cards;
+
+DELETE FROM cards
+WHERE id = 5;
+
+-- Update & delete 4
+INSERT INTO teams VALUES
+(default, 'Chukars', 'Ammon');
+set @chukars = last_insert_id();
+
+SELECT * FROM teams;
+
+UPDATE teams
+SET location = 'Idaho Falls'
+WHERE id = 5;
+
+DELETE FROM teams
+WHERE id = 5;
+
+-- Update & delete 5
+UPDATE batting_stats
+SET hits = 200
+WHERE id = @harper_batting_stats;
+
+SELECT * FROM batting_stats;
+
+DELETE FROM players_has_stats
+WHERE id = @harper_player_stats;
