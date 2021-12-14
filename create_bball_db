@@ -123,26 +123,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `baseballcards`.`cards_has_types`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `baseballcards`.`cards_has_types` (
-  `card_types_id` INT NOT NULL,
-  `rookie_card` ENUM('y', 'n') NULL,
-  `autograph` ENUM('y', 'n') NULL,
-  `description` VARCHAR(5000) NULL,
-  `memorbilia` ENUM('y', 'n') NULL,
-  `num_out_of` VARCHAR(45) NULL,
-  PRIMARY KEY (`card_types_id`),
-  INDEX `fk_players_has_card_types_card_types1_idx` (`card_types_id` ASC) VISIBLE,
-  CONSTRAINT `fk_players_has_card_types_card_types1`
-    FOREIGN KEY (`card_types_id`)
-    REFERENCES `baseballcards`.`cards` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `baseballcards`.`players_has_stats`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `baseballcards`.`players_has_stats` (
@@ -172,29 +152,29 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `baseballcards`.`player_cards_has_stats`
+-- Table `baseballcards`.`players_has_stats_on_cards`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `baseballcards`.`player_cards_has_stats` (
+CREATE TABLE IF NOT EXISTS `baseballcards`.`players_has_stats_on_cards` (
   `players_has_stats_players_id` INT NOT NULL,
-  `players_has_cards_card_types_id` INT NOT NULL,
   `teams_id` INT NOT NULL,
-  PRIMARY KEY (`players_has_stats_players_id`, `players_has_cards_card_types_id`),
-  INDEX `fk_players_has_stats_has_players_has_cards_players_has_card_idx` (`players_has_cards_card_types_id` ASC) VISIBLE,
-  INDEX `fk_players_has_stats_has_players_has_cards_players_has_stat_idx` (`players_has_stats_players_id` ASC) VISIBLE,
-  INDEX `fk_player_cards_has_stats_teams1_idx` (`teams_id` ASC) VISIBLE,
-  CONSTRAINT `fk_players_has_stats_has_players_has_cards_players_has_stats1`
+  `cards_id` INT NOT NULL,
+  PRIMARY KEY (`players_has_stats_players_id`, `teams_id`, `cards_id`),
+  INDEX `fk_players_has_stats_has_cards_has_types_players_has_stats1_idx` (`players_has_stats_players_id` ASC) VISIBLE,
+  INDEX `fk_players_has_stats_on_cards_teams1_idx` (`teams_id` ASC) VISIBLE,
+  INDEX `fk_players_has_stats_on_cards_cards1_idx` (`cards_id` ASC) VISIBLE,
+  CONSTRAINT `fk_players_has_stats_has_cards_has_types_players_has_stats1`
     FOREIGN KEY (`players_has_stats_players_id`)
     REFERENCES `baseballcards`.`players_has_stats` (`players_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_players_has_stats_has_players_has_cards_players_has_cards1`
-    FOREIGN KEY (`players_has_cards_card_types_id`)
-    REFERENCES `baseballcards`.`cards_has_types` (`card_types_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_player_cards_has_stats_teams1`
+  CONSTRAINT `fk_players_has_stats_on_cards_teams1`
     FOREIGN KEY (`teams_id`)
     REFERENCES `baseballcards`.`teams` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_players_has_stats_on_cards_cards1`
+    FOREIGN KEY (`cards_id`)
+    REFERENCES `baseballcards`.`cards` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
