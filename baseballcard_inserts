@@ -1,0 +1,137 @@
+USE baseballcards;
+
+-- Insert info for Barry Bonnell
+-- Insert position
+INSERT INTO positions VALUES
+(Default, 'Outfield');
+set @outfield = last_insert_id();
+
+-- Bonnell player info
+SELECT * FROM players;
+INSERT INTO players VALUES
+(Default, 'Barry', 'Bonnell', "6'3", 200, 'Right', 'Right', '1953-10-27', 'Milford, Ohio', 'Milford, Ohio', @outfield);
+set @Bonnell = last_insert_id();
+
+-- Bonnell batting stats
+INSERT INTO batting_stats VALUES
+(DEFAULT, 437, 59, 128, 26, 3, 6, 14, 49, 140);
+set @bonnell_batting = last_insert_id();
+
+INSERT INTO players_has_stats VALUES
+(@Bonnell, @bonnell_batting, NULL);
+set @bonnell_player_stats = last_insert_id();
+
+-- Toronto bluejays info
+INSERT INTO teams VALUES
+(Default, 'Blue Jays', 'Toronto');
+set @bluejays = last_insert_id();
+
+-- Fleer 1983 card
+INSERT INTO cards VALUES
+(Default, 'Fleer', 1983);
+set @fleer83 = last_insert_id();
+
+-- Bonnell Fleer 1983 card type
+INSERT INTO players_has_stats_on_cards VALUES
+(@bonnell_player_stats, @bluejays, @fleer83);
+
+-- Inserts for Jeremy Guthrie
+-- Insert into Positions table
+INSERT INTO positions VALUES
+(DEFAULT, 'Pitcher');
+set @pitcher = last_insert_id();
+
+INSERT INTO players VALUES
+(Default, 'Jeremy', 'Guthrie', "6'1", 205, 'Right', 'Right', '1979-04-08', 'Roseburg, Oregon', 'Ahsland, Oregon', @pitcher);
+set @guthrie = last_insert_id();
+
+INSERT INTO pitching_stats VALUES
+(Default, 211, 15 ,12, 99, 95, 111, 59, 33, 2, 0);
+set @guthrie_pitching = last_insert_id();
+
+INSERT INTO players_has_stats VALUES
+(@guthrie, NULL, @guthrie_pitching);
+set @guthrie_pitching_stats = last_insert_id();
+
+INSERT INTO teams VALUES
+(Default, 'Royals', 'Kansas City');
+set @royals = last_insert_id();
+
+INSERT INTO cards VALUES
+(DEFAULT, 'Topps', 2013);
+set @topps13 = last_insert_id();
+
+INSERT INTO players_has_stats_on_cards VALUES
+(@guthrie_pitching_stats, @royals, @topps13);
+
+
+
+-- Insert Info for Jeff Kent
+INSERT INTO positions VALUES
+(DEFAULT, 'Second Base');
+set @secondbase = last_insert_id();
+
+INSERT INTO players VALUES
+(Default, 'Jeff', 'Kent', "6'1", 185, 'Right', 'Right', "1968-03-07", 'Bellflower, California', NULL, @secondbase);
+set @kent = last_insert_id();
+
+INSERT INTO batting_stats VALUES
+(Default, 445, 68, 114, 34, 1, 2, 25, 61, 139);
+set @kent_batting_stats = last_insert_id();
+
+INSERT INTO players_has_stats VALUES
+(@kent, @kent_batting_stats, NULL);
+set @kent_player_stats = last_insert_id();
+
+INSERT INTO cards VALUES
+(default, 'Pinnacle', 1992);
+set @pinnacle92 = last_insert_id();
+
+ INSERT INTO players_has_stats_on_cards VALUES
+(@kent_player_stats, @bluejays, @pinnacle93);
+
+
+-- Insert info for Dale Murphy
+INSERT INTO players VALUES
+(default, 'Dale', 'Murphy', "6'5", 215, 'Right', 'Right', "1956-03-12", 'Portland, Oregon', 'Rosewell, Georgia', @outfield);
+set @murphy = last_insert_id();
+
+INSERT INTO batting_stats VALUES
+(default, 616, 118, 185, 32, 2, 37, 10, 111, 162);
+set @murphy_batting_stats = last_insert_id();
+
+INSERT INTO players_has_stats VALUES
+(@murphy, @murphy_batting_stats, NULL);
+set @murphy_player_stats = last_insert_id();
+
+INSERT INTO teams VALUES
+(default, 'Braves', 'Atlanta');
+set @braves = last_insert_id();
+
+INSERT INTO cards VALUES
+(default, 'Leaf', 1986);
+set @leaf86 = last_insert_id();
+
+INSERT INTO players_has_stats_on_cards VALUES
+(@murphy_player_stats, @braves, @leaf86);
+
+-- Insert Info for bryce Harper
+
+INSERT INTO players VALUES
+(default, 'Bryce', 'Harper', "6'2", 230, 'Left', 'Right', "1992-10-16", 'Las Vegas, Nevada', 'Las Vegas Nevada', @outfield);
+set @Harper = last_insert_id();
+
+INSERT INTO batting_stats VALUES
+(default, 424, 71, 116, 24, 3, 20, 11, 58, 118);
+set @harper_batting_stats = last_insert_id();
+
+INSERT INTO players_has_stats VALUES
+(@Harper, @harper_batting_stats, NULL);
+set @harper_player_stats = last_insert_id();
+
+INSERT INTO teams VALUES
+(default, 'Nationals', 'Washington');
+set @nationals = last_insert_id();
+
+ INSERT INTO players_has_stats_on_cards VALUES
+(@harper_player_stats, @nationals, @topps13);
